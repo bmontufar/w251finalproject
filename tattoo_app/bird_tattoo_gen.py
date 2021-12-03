@@ -2,13 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision.utils as vutils
 import numpy as np
-import matplotlib.pyplot as plt
 from torchvision.utils import save_image
-
-
-
-# Batch size during training
-batch_size = 64
 
 # Spatial size of training images. All images will be resized to this
 #   size using a transformer.
@@ -26,35 +20,13 @@ ngf = 128
 # Size of feature maps in discriminator
 ndf = 32
 
-# Number of training epochs
-num_epochs = 200
-
-# Learning rate for optimizers
-lr = 0.0001
-
-# Beta1 hyperparam for Adam optimizers
-beta1 = 0.5
-
 # Number of GPUs available. Use 0 for CPU mode.
 ngpu = 1
 
 
 # Number of gpus available
-ngpu = 1
 device = torch.device('cuda:0' if (
     torch.cuda.is_available() and ngpu > 0) else 'cpu')
-
-
-# custom weights initialization called on netG and netD
-def weights_init(m):
-    classname = m.__class__.__name__
-    if classname.find('Conv') != -1:
-        nn.init.normal_(m.weight.data, 0.0, 0.02)
-    elif classname.find('BatchNorm') != -1:
-        nn.init.normal_(m.weight.data, 1.0, 0.02)
-        nn.init.constant_(m.bias.data, 0)
-
-
 
 # Generator Code
 
@@ -95,23 +67,39 @@ class Generator(nn.Module):
 
 # Create the generator
 netG = Generator(ngpu).to(device)
-netG.apply(weights_init)
-
-
-# Load the Generator
-netG = Generator(ngpu).to(device)
 
 ### Generate bird image
 # Apply the weights_init function to randomly initialize all weights
 netG.load_state_dict(torch.load('./netGweightsBTattoo128v03'))
 
 #real_cpu = data[0].to(device)
-b_size = 128
+b_size = 1
 noise = torch.randn(b_size, nz, 1, 1, device=device)
 fake = netG(noise)
 
-save_image(fake[7], 'bird.png')
+save_image(fake[0], 'bird.png')
 
+### Generate scorpion image
+# Apply the weights_init function to randomly initialize all weights
+netG.load_state_dict(torch.load('./netGweightsScTattoo128v02'))
+
+#real_cpu = data[0].to(device)
+b_size = 1
+noise = torch.randn(b_size, nz, 1, 1, device=device)
+fake = netG(noise)
+
+save_image(fake[0], 'scorpion.png')
+
+### Generate skull image
+# Apply the weights_init function to randomly initialize all weights
+netG.load_state_dict(torch.load('./netGweightsSkTattoo128v02'))
+
+#real_cpu = data[0].to(device)
+b_size = 1
+noise = torch.randn(b_size, nz, 1, 1, device=device)
+fake = netG(noise)
+
+save_image(fake[0], 'skull.png')
 
 
 

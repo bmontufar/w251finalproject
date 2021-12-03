@@ -12,12 +12,12 @@ root.geometry("600x500")
 
 #cmd = 'OPENBLAS_CORETYPE=ARMV8 python3 scorpion_tattoo_gen.py'
 #os.system(cmd)
-
-#cmd = 'OPENBLAS_CORETYPE=ARMV8 python3 bird_tattoo_gen.py'
-#os.system(cmd)
+def run_tattoo_gen():
+    cmd = 'OPENBLAS_CORETYPE=ARMV8 python3 bird_tattoo_gen.py'
+    os.system(cmd)
 
 def run_opencv():
-    subprocess.call(["python", "tattoo_placement.py"])
+    subprocess.call(["python3", "tattoo_placement.py"])
 
 
 
@@ -52,6 +52,7 @@ def scorpion_gen():
     	f.write('scorpion')
     root.mainloop()
 
+run_tattoo_gen()
 
 # add background img
 bg = PhotoImage(file = "bg.png")
@@ -65,6 +66,15 @@ button = tk.Button(
                    height = 2,
                    command=quit)
 button.place(x=450, y=400)
+
+# button regen
+button0 = tk.Button(
+                   text="REGEN",
+                   width = 10,
+                   height = 2,
+                   command=run_tattoo_gen)
+button0.place(x=450, y=40)
+
 
 # button tattoo fit
 button1 = tk.Button(
