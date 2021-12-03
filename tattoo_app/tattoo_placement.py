@@ -93,6 +93,8 @@ def draw_sprite(frame, sprite, x_offset, y_offset):
     # for each RGB chanel
     for c in range(3):
         # chanel 4 is alpha: 255 is not transpartne, 0 is transparent background
+        y_offset = int(y_offset)
+        x_offset = int(x_offset)
         frame[y_offset : y_offset + h, x_offset : x_offset + w, c] = sprite[:, :, c] * (
             sprite[:, :, 3] / 255.0
         ) + frame[y_offset : y_offset + h, x_offset : x_offset + w, c] * (
@@ -189,7 +191,8 @@ while cv.waitKey(1) < 0:
     cv.imshow('OpenPose using OpenCV', frame)
 
     if cv.waitKey(1) & 0xFF == ord('q'):
-	break
+        break
+
 cap.release()
 cv.destroyAllWindows()
 quit()
