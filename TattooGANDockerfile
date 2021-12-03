@@ -119,3 +119,6 @@ RUN cd opencv/build && tar -czvf OpenCV-${OPENCV_VERSION}-aarch64.tar.gz *.deb
 
 RUN pip3 install --no-cache-dir setuptools Cython wheel
 RUN pip3 install --no-cache-dir --verbose numpy
+
+WORKDIR /project/tattoo_app
+CMD ["python3", "gui.py"]
